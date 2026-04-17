@@ -701,6 +701,11 @@ Nombre con que te llama esta persona: ${userName}`;
 
   conversationHistory.push({ role: 'user', content: text });
 
+  // Mantener solo los últimos 6 mensajes si el historial crece mucho
+  if (conversationHistory.length > 10) {
+    conversationHistory = conversationHistory.slice(-6);
+  }
+
   showTyping();
   isLoading = true;
   document.getElementById('sendBtn').disabled = true;
@@ -714,7 +719,7 @@ Nombre con que te llama esta persona: ${userName}`;
   conversationHistory.push({ role: 'assistant', content: response });
   addMessage('kairos', response);
 }
-
+  
 async function closeSession() {
   if (isLoading || sessionClosed) return;
   sessionClosed = true;
